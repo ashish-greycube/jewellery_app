@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include jewellery_app *.css
+recursive-include jewellery_app *.csv
+recursive-include jewellery_app *.html
+recursive-include jewellery_app *.ico
+recursive-include jewellery_app *.js
+recursive-include jewellery_app *.json
+recursive-include jewellery_app *.md
+recursive-include jewellery_app *.png
+recursive-include jewellery_app *.py
+recursive-include jewellery_app *.svg
+recursive-include jewellery_app *.txt
+recursive-exclude jewellery_app *.pyc
