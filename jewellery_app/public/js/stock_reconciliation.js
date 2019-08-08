@@ -9,7 +9,8 @@ frappe.ui.form.on("Stock Reconciliation", {
 		}
     },
     get_jewllery_items: function(frm) {
-		frappe.prompt({label:"Warehouse", fieldname: "warehouse", fieldtype:"Link", options:"Warehouse", reqd: 1,
+
+		frappe.prompt({label:"Item Group", fieldname: "item_group", fieldtype:"Link", options:"Item Group", reqd: 1,
 			"get_query": function() {
 				return {
 					"filters": {
