@@ -6,24 +6,27 @@ from erpnext.stock.utils import get_stock_balance
 def stock_reconciliation_get_items(warehouse, posting_date, posting_time, company,item_group):
 
     lft, rgt = frappe.db.get_value("Warehouse", warehouse, ["lft", "rgt"])
+    iglft,igrgt = frappe.db.get_value("Item Group", item_group, ["lft", "rgt"])
+
     items = frappe.db.sql("""
-        select i.name, i.item_name, bin.warehouse
+        select i.name, i.item_name, bin.warehouse,i.item_group
         from tabBin bin, tabItem i
         where i.name=bin.item_code and i.disabled=0 and i.is_stock_item = 1
         and i.has_variants = 0 and i.has_serial_no = 0 and i.has_batch_no = 0
         and exists(select name from `tabWarehouse` where lft >= %s and rgt <= %s and name=bin.warehouse)
-    """, (lft, rgt))
+        and exists(select name from `tabItem Group` where lft >= %s and rgt <= %s and name=i.item_group)
+    """, (lft, rgt,iglft,igrgt))
 
     items += frappe.db.sql("""
-        select i.name, i.item_name, id.default_warehouse
+        select i.name, i.item_name, id.default_warehouse,i.item_group
         from tabItem i, `tabItem Default` id
         where i.name = id.parent
             and exists(select name from `tabWarehouse` where lft >= %s and rgt <= %s and name=id.default_warehouse)
             and i.is_stock_item = 1 and i.has_serial_no = 0 and i.has_batch_no = 0
             and i.has_variants = 0 and i.disabled = 0 and id.company=%s
-            and i.item_group=%s
+            and exists(select name from `tabItem Group` where lft >= %s and rgt <= %s and name=i.item_group)
         group by i.name
-    """, (lft, rgt, company,item_group))
+    """, (lft, rgt, company,iglft,igrgt))
 
     res = []
     for d in set(items):
