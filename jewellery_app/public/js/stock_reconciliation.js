@@ -52,9 +52,7 @@ frappe.ui.form.on("Stock Reconciliation", {
 						// remove duplicate items from existing child item
 						for (var i = 0; i < r.message.length; i++) {
 							let new_item_code = r.message[i]['item_code']
-							console.log(new_item_code, 'item_code')
 							$.each(frm.doc.items, function (i, v) {
-								console.log(v.item_code)
 								if (v.item_code == new_item_code) {
 									frm.get_field("items").grid.grid_rows[i].remove();
 								}
@@ -68,7 +66,6 @@ frappe.ui.form.on("Stock Reconciliation", {
 							$.extend(d, r.message[i]);
 							if (!d.qty) d.qty = null;
 							d.valuation_rate = data.jewel_valuation_rate
-							// if(!d.valuation_rate) d.valuation_rate = null;
 						}
 						frm.refresh_field("items");
 					}
