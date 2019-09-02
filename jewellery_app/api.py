@@ -8,8 +8,7 @@ def stock_reconciliation_get_items(posting_date, posting_time, company,item_grou
     warehouses=frappe.db.sql("""select name from `tabWarehouse` where is_group=1 and (parent_warehouse ='' or parent_warehouse is null) and company=%s""",company)
     if warehouses is not None : 
         for warehouse in warehouses:
-            warehouse=warehouse[0][0]
-
+            warehouse=warehouse[0]
             lft, rgt = frappe.db.get_value("Warehouse", warehouse, ["lft", "rgt"])
             iglft,igrgt = frappe.db.get_value("Item Group", item_group, ["lft", "rgt"])
 
