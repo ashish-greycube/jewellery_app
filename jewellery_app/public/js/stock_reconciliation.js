@@ -35,7 +35,6 @@ frappe.ui.form.on("Stock Reconciliation", {
 				frappe.call({
 					method: "jewellery_app.api.stock_reconciliation_get_items",
 					args: {
-						warehouse: 'All Warehouses - ' + frappe.get_abbr(frm.doc.company),
 						posting_date: frm.doc.posting_date,
 						posting_time: frm.doc.posting_time,
 						company: frm.doc.company,
